@@ -12,7 +12,7 @@ var listing = {
 describe('Listing Schema Unit Tests', function() {
 
   before(function(done) {
-    mongoose.connect(config.test.db.uri);
+    mongoose.connect(config.db.uri);
     done();
   });
 
@@ -62,6 +62,13 @@ describe('Listing Schema Unit Tests', function() {
   });
 
   afterEach(function(done) {
-    Listing.remove().exec(done);
+    if(id) {
+      Listing.remove({ _id: id }).exec(function() {
+         id = null;
+         done();
+      });
+    } else {
+      done();
+    }
   });
 });
