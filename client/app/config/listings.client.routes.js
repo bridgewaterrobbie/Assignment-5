@@ -26,11 +26,11 @@ angular.module('listings').config(['$stateProvider', '$urlRouterProvider',
         Create a state for editing an individual listing, and another for the map view. 
        */
        .state('listings.edit', {
-        url: '',
+        url: '/:listingId',
         templateUrl: 'app/views/edit-listing.client.view.html'
        })
        .state('listings.map', {
-        url: '',
+        url: '/map',
         templateUrl: 'app/views/map-listing.client.view.html'
        })
   } 
