@@ -79,14 +79,23 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         successfully finished, navigate back to the 'listing.list' state using $state.go(). If an error 
         occurs, pass it to $scope.error. 
        */
+       debugger;
+       $scope.error = null;
        if (!isValid) {
         $scope.$broadcast('show-errors-check-validity', 'articleForm');
 
         return false;
       }
-      Listings.update(listing)
+      var id = $stateParams.listingId;
+      var listing = {
+        name: $scope.name,
+        code: $scope.code,
+        address: $scope.address
+      };
+
+      Listings.update(id, listing)
               .then(function(response) {
-                $state.go('listing.list', { successMessage: 'Listing successfully updated!' });
+                $state.go('listings.list', { successMessage: 'Listing successfully updated!' });
               }, function(error) {
                 $scope.error = 'Unable to update listing!\n' + error;
               });
@@ -97,11 +106,12 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         Implement the remove function. If the removal is successful, navigate back to 'listing.list'. Otherwise, 
         display the error. 
        */
-       Listings.remove(listing)
+       var id = $stateParams.listingId;
+       Listings.delete(id)
               .then(function(response) {
-                $state.go('listing.list', { successMessage: 'Listing successfully removed!' });
+                $state.go('listings.list', { successMessage: 'Listing successfully removed!' });
               }, function(error) {
-                $scope.error = 'Unable to remove listing!\n' + error;
+                $scope.error = 'Unable to remove listing with id "' + id + '"\n' + error;
               });
     };
 
